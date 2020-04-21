@@ -200,6 +200,13 @@ plotCoverage <- function(exons, cdss = NULL, transcript_annotations = NULL, trac
   } else{
     gene_range = constructGeneRange(joint_exons, flanking_length)
   }
+
+  # gene range to single lines
+  gene_range <- GenomicRanges::GRanges(seqnames = unique(GenomicRanges::seqnames(gene_range)),
+                                       IRanges::IRanges(min(GenomicRanges::start(gene_range)),
+                                               max(GenomicRanges::end(gene_range))))
+
+    
   assertthat::assert_that(length(flanking_length) == 2) #flanking_length is a vector of two elements
 
   #Extract chromosome name
