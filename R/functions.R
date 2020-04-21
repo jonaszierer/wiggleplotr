@@ -4,7 +4,7 @@ readCoverageFromBigWig <- function(bigwig_path, gene_range){
   #Read coverage over a region from a bigWig file
   sel = rtracklayer::BigWigSelection(gene_range)
   coverage_ranges = rtracklayer::import.bw(bigwig_path, selection = sel)
-  GenomeInfoDb::seqlevels(coverage_ranges) = S4Vectors::as.vector.Rle(GenomicRanges::seqnames(gene_range), mode = "character")
+  GenomeInfoDb::seqlevels(coverage_ranges) = unique(S4Vectors::as.vector.Rle(GenomicRanges::seqnames(gene_range), mode = "character"))
   coverage_rle = GenomicRanges::coverage(coverage_ranges, weight = GenomicRanges::score(coverage_ranges))[[1]]
   coverage_rle = coverage_rle[(GenomicRanges::start(gene_range)):(GenomicRanges::end(gene_range))] #Keep the region of interest
 }
